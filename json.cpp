@@ -9,6 +9,10 @@ JSON::JSON(string k)
 	key = k;
 	isMultiDim = false;
 }
+JSON::~JSON()
+{
+
+}
 
 string JSON::stringtify(int recursiveCounter)
 {
@@ -60,11 +64,51 @@ string JSON::stringtify(int recursiveCounter)
 
 bool JSON::add(string k, JSON value)
 {
+	if (key == k)
+	{
+		if (!isMultiDim)
+		{
+			isMultiDim = true;
+			values.clear();
+		}
+		jsons.push_back(value);
+		return true;
+	}
+	else
+	{
+		for (JSON & jsn : jsons)
+		{
+			bool ret = jsn.add(k, value);
+			if (ret)
+			{
+				return true;
+			}
+		}
+	}
 	return false;
 }
 
 bool JSON::add(string k, string value)
 {
+	if (key == k)
+	{
+		if (!isMultiDim)
+		{
+			values.push_back(value);
+		}
+		return true;
+	}
+	else
+	{
+		for (JSON & jsn : jsons)
+		{
+			bool ret = jsn.add(k, value);
+			if (ret)
+			{
+				return true;
+			}
+		}
+	}
 	return false;
 }
 
