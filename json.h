@@ -1,5 +1,6 @@
 #pragma once
-#pragma once
+#ifndef _JSON_H
+#define _JSON_H
 
 #include <vector>
 #include <string>
@@ -22,3 +23,4 @@ private:
 };
 
 
+#endif
