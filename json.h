@@ -12,9 +12,9 @@ public:
 	JSON();
 	JSON(string key);
 	~JSON();
-	string stringtify(int recursiveCounter = 1);
+	string stringtify(int recursiveCounter = 0);
 	bool add(string key, string value);
-	bool add(string key, JSON value);
+	bool add(JSON value, string key = "");
 private:
 	string key;
 	vector <string> values;

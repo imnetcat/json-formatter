@@ -2,7 +2,8 @@
 
 JSON::JSON()
 {
-
+	key.empty();
+	isMultiDim = false;
 }
 JSON::JSON(string k)
 {
@@ -17,20 +18,27 @@ JSON::~JSON()
 string JSON::stringtify(int recursiveCounter)
 {
 	string result;
-	if (recursiveCounter == 1)
-		result += "{ \n";
+	//if (recursiveCounter == 1)
+	//	result += "{ \n";
 
 	string t1 = string(recursiveCounter, '\t');
 	string t2 = string(recursiveCounter + 1, '\t');
 
-	result += t1 + "\"" + key + "\": ";
-	if (isMultiDim)
+	if (key == "")
 	{
-		result += "{ \n";
+		result += "{\n";
 	}
 	else
 	{
-		result += "[ \n";
+		result += t1 + "\"" + key + "\": ";
+		if (isMultiDim)
+		{
+			result += "{\n";
+		}
+		else
+		{
+			result += "[\n";
+		}
 	}
 
 	for (auto value : values)
@@ -45,26 +53,31 @@ string JSON::stringtify(int recursiveCounter)
 			result += json.stringtify(recursiveCounter + 1) + ",\n";
 		}
 	}
-	result.erase(result.end()-2, result.end()-1);
-	result += t1;
-	if (isMultiDim)
+	result.erase(result.end() - 2, result.end() - 1);
+
+	if (key == "")
 	{
-		result += "}";
+		result += "\n}";
 	}
 	else
 	{
-		result += "]";
+		result += t1;
+		if (isMultiDim)
+		{
+			result += "}";
+		}
+		else
+		{
+			result += "]";
+		}
 	}
-
-	if (recursiveCounter == 1)
-		result += "\n}";
 
 	return result;
 }
 
-bool JSON::add(string k, JSON value)
+bool JSON::add(JSON value, string k)
 {
-	if (key == k)
+	if (key == k || k == "")
 	{
 		if (!isMultiDim)
 		{
@@ -78,7 +91,7 @@ bool JSON::add(string k, JSON value)
 	{
 		for (JSON & jsn : jsons)
 		{
-			bool ret = jsn.add(k, value);
+			bool ret = jsn.add(value, k);
 			if (ret)
 			{
 				return true;

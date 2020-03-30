@@ -4,15 +4,15 @@
 
 int main()
 {
-	JSON modules = JSON("modules");
+	JSON modules = JSON();
 
-	modules.add("modules", JSON("module1"));
+	modules.add(JSON("module1"));
 
-	modules.add("module1", JSON("submodules"));
-	modules.add("submodules", JSON("submodule1"));
-	modules.add("submodules", JSON("submodule2"));
-	modules.add("submodule1", JSON("sub1"));
-	modules.add("submodule1", JSON("sub2"));
+	modules.add(JSON("submodules"), "module1");
+	modules.add(JSON("submodule1"), "submodules");
+	modules.add(JSON("submodule2"), "submodules");
+	modules.add(JSON("sub1"), "submodule1");
+	modules.add(JSON("sub2"), "submodule1");
 
 	modules.add("sub1", "something");
 	modules.add("sub1", "qwerty");
