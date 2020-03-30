@@ -4,33 +4,37 @@
 
 int main()
 {
-	JSON modules = JSON();
+	JSON data = JSON();
 
-	modules.add(JSON("module1"));
+	data.add(STRING, "status");
+	data.set("status", "gotit");
 
-	modules.add(JSON("submodules"), "module1");
-	modules.add(JSON("submodule1"), "submodules");
-	modules.add(JSON("submodule2"), "submodules");
-	modules.add(JSON("sub1"), "submodule1");
-	modules.add(JSON("sub2"), "submodule1");
+	data.add(ARRAY, "array");
+	data.add(OBJECT, "modules");
 
-	modules.add("sub1", "something");
-	modules.add("sub1", "qwerty");
-	modules.add("sub1", "1234");
-	modules.add("sub2", "poiuytreqw");
+	JSON & t = data.key("array");
+	t.add(STRING, "(one)");
+	t.add(STRING, "(two)");
+	t.add(STRING, "(three)");
 
-	modules.add("submodule2", "sub1");
-	modules.add("submodule2", "sub2");
-	modules.add("submodule2", "sub3");
-	modules.add("submodule2", "sub4");
-	modules.add("submodule2", "sub5");
-	modules.add("submodule2", "sub6");
-	modules.add("submodule2", "sub7");
-	modules.add("submodule2", "sub8");
+	JSON & modules = data.key("modules");
+	JSON & submodule1 = modules.add(OBJECT, "submodule1").key("submodule1");
+	JSON & sub = submodule1.add(OBJECT, "sub").key("sub");
+	sub.add(ARRAY, "array1");
+	sub.add(ARRAY, "array2");
+	JSON & array1 = sub.key("array1");
+	JSON & array2 = sub.key("array2");
 
-	string data = modules.stringtify();
+	array2.add(STRING, "login1:pass");
+	array2.add(STRING, "login2:pass");
+	array2.add(STRING, "login3:pass");
+	array1.add(STRING, "login6758:pass");
+	array1.add(STRING, "login008:pass");
+	array2.add(STRING, "login4:pass");
 
-	cout << data;
+	string strdat = data.stringtify();
+
+	cout << strdat;
 
 	return 0;
 }
